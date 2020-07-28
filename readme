@@ -1,0 +1,10 @@
+This is the readme file for the DnaK-peptide forward and reverse binding predictor.
+
+The predictor is in score.py and requires the file params.npy to run properly.
+
+For help, execute:
+   python3 score.py -h
+or
+  python3 score.py --help
+
+There is also a test.inp input file
