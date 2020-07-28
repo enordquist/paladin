@@ -10,4 +10,5 @@ or
 There is also a test.inp input file, which can be utilized as:
 
    python3 score.py -i test.fasta [-o test.out]
-By default, if an output destination is not specified, the file inputfilename.out is used.
+
+If an output file is not specified, the output will only print to screen.
