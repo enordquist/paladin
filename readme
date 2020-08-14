@@ -1,14 +1,16 @@
-This is the readme file for the DnaK-peptide forward and reverse binding predictor.
+This is the readme file for the Physics-based Model of DnaK-Substrate Binding
 
-The predictor is in score.py and requires the file params.npy to run properly.
+The predictor is in score.py and requires the file ./params.npy to run properly.
+It is written with python3.
 
 For help, execute:
-   python3 score.py -h
-or
-  python3 score.py --help
+  python3 score.py -h/--help
 
 There is also a test.inp input file, which can be utilized as:
 
    python3 score.py -i test.fasta [-o test.out]
 
 If an output file is not specified, the output will only print to screen.
+To quiet this output, you can supply -q/--quiet.
+
+There is an additional option -d/--detail for a more detailed output to print or be written to the specified output file.

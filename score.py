@@ -10,7 +10,6 @@ Matrix is Sites(5) x Residues(20) x Terms(6)
 
 '''
 
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import argparse
@@ -27,9 +26,13 @@ residuesDict = {'E':0,'D':1,'K':2,'R':3,'Q':4,'N':5,'P':6,
                 'H':7,'T':8,'S':9,'G':10,'A':11,'V':12,'M':13,
                 'C':14,'I':15,'L':16,'Y':17,'F':18,'W':19}
 
-wsite=[0.25, 0.50, 1.0, 0.25, 0.25]
-wterm0=[0.20, 0.60, 0.0, 0.0, 0.0, 1.0, 0.40]
-wterm_out=wterm0
+
+# default weights
+wsite=[0.5, 0.5, 1.0, 0.2, 0.1]
+wterm=[0.20, 0.60, 0.0, 0.0, 0.0, 1.0, 0.40]
+
+# penalty for reverse-binding peptides
+reverse_penalty = 1
 
 ####
 #load params from numpy file rq
@@ -47,9 +50,7 @@ def score_fivemer(fivemer):
       score_site = 0
       resIdx=residuesDict[residue] #returns matrix index of residue I
       tmpparam = params[siteIdx][resIdx]
-      if siteIdx is 2: wterms=wterm0
-      else: wterms=wterm_out
-      for wt,termIdx in zip(wterms,term_index):
+      for wt,termIdx in zip(wterm,term_index):
         termij = wt * tmpparam[termIdx]
         score_site += termij
       score += ws * score_site
@@ -65,14 +66,18 @@ def score_peptide(seq,detail_set):
   for i in range(0,len(seq)-4):
     fivemer= seq[i:int(i+5)]
     if detail_set:
-      score, details = detail(fivemer)
+      columns=['seq','score','for-detail','reverse','rev-detail']
+      score, fdetails = detail(fivemer)
+      rscore, rdetails = detail(fivemer)
+      seq_score.append([fivemer,score,fdetails,rscore,rdetails])
     else:
+      columns=['seq','score','reverse']
       score = score_fivemer(fivemer)
-      rscore = score_fivemer(reverse(fivemer))
+      rscore = score_fivemer(reverse(fivemer)) + reverse_penalty
       details = ''
-      seq_score.append([fivemer,score,rscore,details])
+      seq_score.append([fivemer,score,rscore])
   df = pd.DataFrame(seq_score)
-  df.columns = ['seq','score','reverse-score','detail']
+  df.columns=columns
   return df 
 
 def detail(fivemer):
@@ -84,8 +89,6 @@ def detail(fivemer):
       score_site = 0
       resIdx=residuesDict[residue] #returns matrix index of residue I
       tmpparam = params[siteIdx][resIdx]
-      if siteIdx is 2: wterm = wterm0
-      else: wterm=wterm_out
       for wt,termIdx in zip(wterm,term_index):
         t = ws * wt * tmpparam[termIdx]
         terms[termsDict[termIdx]] = t
@@ -103,23 +106,26 @@ def read_fasta(ifile):
   with open(ifile) as f: content = [i.strip() for i in f.readlines()]
   for line in content:
     if line[0] is '>':
-      key = line[1:]
+      seq = line[1:]
     else:
-      Pepdict[key] = line
+      Pepdict[seq] = line
   return Pepdict
 
 def get_scores(fasta,detail):
   out={}
-  for name,seq in fasta.items():
-    out[name] = score_peptide(seq,detail)
-  return pd.concat(out)
+  for name,seq in fasta.items(): out[name] = score_peptide(seq,detail)
+
+  scores = pd.concat(out)
+  scores.index.rename(['label','n'],inplace=True)
+  scores.set_index(['seq'],inplace=True,append=True)
+  return scores
   
 def print_summary(scores):
   print('SUMMARY')
   print(scores)
 
 def write_scores(scores,ofile):
-  out = pd.DataFrame.from_dict(df)
+  out = pd.DataFrame.from_dict(scores)
   out.to_csv(ofile,float_format='%.2f')
 
 def main():
