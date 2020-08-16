@@ -131,10 +131,10 @@ def write_scores(scores,ofile):
 def main():
   # cl arguments
   parser = argparse.ArgumentParser(description='calculate scores for peptides saved in fasta format')
-  parser.add_argument('-i','--infile',required=True,dest='IFile',help='fasta format, source of peptides to be scored')
-  parser.add_argument('-o','--outfile',             dest='OFile',help='destination of scores')
-  parser.add_argument('-d','--detail',action='store_true',dest='Detail',help='flag to give detailed score breakdown')
-  parser.add_argument('-q','--quiet',action='store_true',dest='Quiet',help='flag to suppress summary ouput printed to screen')
+  parser.add_argument('-i','--infile', required=True,       dest='IFile',  help='fasta format, source of peptides to be scored')
+  parser.add_argument('-o','--outfile',                     dest='OFile',  help='destination of scores')
+  parser.add_argument('-d','--detail', action='store_true', dest='Detail', help='flag to give detailed score breakdown')
+  parser.add_argument('-q','--quiet',  action='store_true', dest='Quiet',  help='flag to suppress summary ouput printed to screen')
   args=parser.parse_args()
   
   # read fasta-format input file
