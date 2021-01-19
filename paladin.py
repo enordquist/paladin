@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 '''
 python score.py [-i input] [-o output] [-d] [-h]
 
@@ -26,7 +27,6 @@ residuesDict = {'E':0,'D':1,'K':2,'R':3,'Q':4,'N':5,'P':6,
                 'H':7,'T':8,'S':9,'G':10,'A':11,'V':12,'M':13,
                 'C':14,'I':15,'L':16,'Y':17,'F':18,'W':19}
 
-
 # default weights
 wsite=[0.5, 0.5, 1.0, 0.2, 0.1]
 wterm=[0.20, 0.60, 0.0, 0.0, 0.0, 1.0, 0.40]
@@ -34,9 +34,18 @@ wterm=[0.20, 0.60, 0.0, 0.0, 0.0, 1.0, 0.40]
 # penalty for reverse-binding peptides
 reverse_penalty = 1
 
+# EDIT this if you want to be able to call this script from anywhere
+# (then also make paladin.py executable and put in path somewhere)
+# for example:
+# I have path='/home/user/programs/paladin/'
+# and have linked /home/user/programs/paladin/paladin.py to ~/bin/paladin.py
+# and made the script in programs executable
+
+path='./' #this is for when the params.npy is wherever paladin.py is
+
 ####
-#load params from numpy file rq
-params=np.load('params.npy',allow_pickle=True)
+#load params from numpy file
+params=np.load(path,allow_pickle=True)
 #np.set_printoptions(precision=1,linewidth=80)
 
 # model form:

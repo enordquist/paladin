@@ -4,7 +4,7 @@ The model is in paladin.py and requires the file ./params.npy to run properly.
 It is written with python3.
 
 For help, execute:
-  python3 paladin.py -h/--help
+  python3 paladin.py -h
 
 There is also a test.inp input file, which can be utilized as:
 
@@ -13,4 +13,6 @@ There is also a test.inp input file, which can be utilized as:
 If an output file is not specified, the output will only print to screen.
 To quiet this output, you can supply -q/--quiet.
 
-There is an additional option -d/--detail for a more detailed output to print or be written to the specified output file.
+It should be possible to set up the script to be executable from anywhere,
+by editing in paladin.py a variable called path to where the params.npy file lives,
+and making paladin.py executable and in your $PATH
