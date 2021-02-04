@@ -13,6 +13,5 @@ There is also a test.inp input file, which can be utilized as:
 If an output file is not specified, the output will only print to screen.
 To quiet this output, you can supply -q/--quiet.
 
-It should be possible to set up the script to be executable from anywhere,
-by editing in paladin.py a variable called path to where the params.npy file lives,
-and making paladin.py executable and in your $PATH
+You should be able to make paladin.py executable and in your path, but
+make sure it knows where the params.npy file is (or keep them together).

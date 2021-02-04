@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+#
 '''
 python score.py [-i input] [-o output] [-d] [-h]
 
@@ -32,20 +33,11 @@ wsite=[0.5, 0.5, 1.0, 0.2, 0.1]
 wterm=[0.20, 0.60, 0.0, 0.0, 0.0, 1.0, 0.40]
 
 # penalty for reverse-binding peptides
-reverse_penalty = 1
-
-# EDIT this if you want to be able to call this script from anywhere
-# (then also make paladin.py executable and put in path somewhere)
-# for example:
-# I have path='/home/user/programs/paladin/'
-# and have linked /home/user/programs/paladin/paladin.py to ~/bin/paladin.py
-# and made the script in programs executable
-
-path='./' #this is for when the params.npy is wherever paladin.py is
+reverse_penalty = 0.0
 
 ####
 #load params from numpy file
-params=np.load(path,allow_pickle=True)
+params=np.load('params.npy',allow_pickle=True)
 #np.set_printoptions(precision=1,linewidth=80)
 
 # model form:
@@ -139,7 +131,7 @@ def write_scores(scores,ofile):
 
 def main():
   # cl arguments
-  parser = argparse.ArgumentParser(description='calculate scores for peptides saved in fasta format')
+  parser = argparse.ArgumentParser(description='calculate estimated binding affinity of peptides for DnaK')
   parser.add_argument('-i','--infile', required=True,       dest='IFile',  help='fasta format, source of peptides to be scored')
   parser.add_argument('-o','--outfile',                     dest='OFile',  help='destination of scores')
   parser.add_argument('-d','--detail', action='store_true', dest='Detail', help='flag to give detailed score breakdown')
