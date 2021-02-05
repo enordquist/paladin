@@ -62,45 +62,18 @@ def score_fivemer(fivemer):
 def reverse(seq):
   return seq[::-1]
 
-def score_peptide(seq,detail_set):
+def score_peptide(seq):
   seq_score = []
   for i in range(0,len(seq)-4):
     fivemer= seq[i:int(i+5)]
-    if detail_set:
-      columns=['seq','score','for-detail','reverse','rev-detail']
-      score, fdetails = detail(fivemer)
-      rscore, rdetails = detail(fivemer)
-      seq_score.append([fivemer,score,fdetails,rscore,rdetails])
-    else:
-      columns=['seq','score','reverse']
-      score = score_fivemer(fivemer)
-      rscore = score_fivemer(reverse(fivemer)) + reverse_penalty
-      details = ''
-      seq_score.append([fivemer,score,rscore])
+
+    columns=['seq','score','reverse']
+    score = score_fivemer(fivemer)
+    rscore = score_fivemer(reverse(fivemer)) + reverse_penalty
+    seq_score.append([fivemer,score,rscore])
   df = pd.DataFrame(seq_score)
   df.columns=columns
   return df 
-
-def detail(fivemer):
-  details = {}
-  try:
-    score = 0
-    for ws,siteIdx,residue in zip(wsite,site_index,fivemer):
-      terms = {}
-      score_site = 0
-      resIdx=residuesDict[residue] #returns matrix index of residue I
-      tmpparam = params[siteIdx][resIdx]
-      for wt,termIdx in zip(wterm,term_index):
-        t = ws * wt * tmpparam[termIdx]
-        terms[termsDict[termIdx]] = t
-        score_site += t
-      details["site "+str(siteIdx-2)] = terms
-      score += score_site
-    return score, pd.DataFrame(details)
-
-  except KeyError:
-    print(fivemer,'has some weird input')
-
 
 def read_fasta(ifile):
   Pepdict={}
@@ -112,9 +85,9 @@ def read_fasta(ifile):
       Pepdict[seq] = line
   return Pepdict
 
-def get_scores(fasta,detail):
+def get_scores(fasta):
   out={}
-  for name,seq in fasta.items(): out[name] = score_peptide(seq,detail)
+  for name,seq in fasta.items(): out[name] = score_peptide(seq)
 
   scores = pd.concat(out)
   scores.index.rename(['label','n'],inplace=True)
@@ -134,7 +107,6 @@ def main():
   parser = argparse.ArgumentParser(description='calculate estimated binding affinity of peptides for DnaK')
   parser.add_argument('-i','--infile', required=True,       dest='IFile',  help='fasta format, source of peptides to be scored')
   parser.add_argument('-o','--outfile',                     dest='OFile',  help='destination of scores')
-  parser.add_argument('-d','--detail', action='store_true', dest='Detail', help='flag to give detailed score breakdown')
   parser.add_argument('-q','--quiet',  action='store_true', dest='Quiet',  help='flag to suppress summary ouput printed to screen')
   args=parser.parse_args()
   
@@ -144,7 +116,7 @@ def main():
   #SEQUENCE
 
   fasta=read_fasta(args.IFile)
-  scores=get_scores(fasta,args.Detail)
+  scores=get_scores(fasta)
   if not args.Quiet: print_summary(scores)
   if args.OFile is not None: write_scores(scores,args.OFile)
   if args.Quiet and args.OFile is None: print('use -o outputfile to save output to text file')
