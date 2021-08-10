@@ -15,3 +15,43 @@ To quiet this output, you can supply -q/--quiet.
 
 You should be able to make paladin.py executable and in your path, but
 make sure it knows where the params.npy file is (or keep them together).
+
+
+[ Input and output format and examples ]
+
+Given an input fasta file that looks like the following (Paladin assumes forward orientation):
+
+>example: NR peptide
+NRLLLTG
+>example 2
+ACDEFGHI
+
+The command:
+python paladin.py -i input.fasta
+
+returns the following output summary:
+
+SUMMARY
+                             score  reverse
+label               n seq                  
+example: NR peptide 0 NRLLL -3.033   -8.934
+                    1 RLLLT -6.524   -8.361
+                    2 LLLTG -9.841   -6.817
+example 2           0 ACDEF  2.873    3.307
+                    1 CDEFG  3.132    0.175
+                    2 DEFGH -2.443   -2.712
+                    3 EFGHI -2.995   -1.306
+
+Where the columns refer to: 
+  label - labeling string provided on the initial line in fasta format
+  n     - the unique iNdex of the 5-mer for a single sequence
+  seq   - sequence of the scored 5-mer (in order specified in fasta file)
+  score - score of forward orientation (in kcal/mol)
+  reverse - score of reverse orientation (in kcal/mol)
+
+Reverse orientation peptides are scored by reversing the order of the input sequence.
+In other words, it is the same energy terms in either orientation. See (manuscript)
+for our justification of this choice.
+
+Example: if the forward-orientation sequence is NRLTG, and the corresponding score is 
+paladin(NRLTG), the reverse score is paladin(GTLRN).
