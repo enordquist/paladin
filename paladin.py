@@ -4,10 +4,10 @@
 python score.py [-i input] [-o output] [-d] [-h]
 
 for scoring peptides not comparing 13mer peptide array labels
-Matrix is Sites(5) x Residues(20) x Terms(6)
-  Terms = ['vdw','elec','harm','solvfe','cp','dunfe']
-  Sites = [-2,-1,0,+1,+2] (index to [0<->4])
-  Residues = {'E':0,'D':1,'K':2,'R':3,'Q':4,'N':5,'P':6,'H':7,'T':8,'S':9,'G':10,'A':11,'V':12,'M':13,'C':14,'I':15,'L':16,'Y':17,'F':18,'W':19}
+Matrix is Wsite * Sites(5) x [ Residues(20) x Wterm*Terms(7) ]
+  Terms : {1:'vdw',2:'elec',3:'harm',4:'cp',5:'dunfe',6:'solvFE-resN',7:'solvFE-site'}
+  Sites : [-2,-1,0,+1,+2] (index to [0<->4])
+  Residues : {'E':0,'D':1,'K':2,'R':3,'Q':4,'N':5,'P':6,'H':7,'T':8,'S':9,'G':10,'A':11,'V':12,'M':13,'C':14,'I':15,'L':16,'Y':17,'F':18,'W':19}
 
 
 '''
