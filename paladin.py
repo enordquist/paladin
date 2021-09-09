@@ -19,11 +19,6 @@ pd.set_option("display.precision", 3)
 
 site_index   = [0,1,2,3,4]
 term_index   = [1,2,3,4,5,6,7]
-termsDict    = {1:'vdw',2:'elec',3:'harm',4:'cp',5:'dunfe',
-                6:'solvFE-resN',7:'solvFE-site'}
-
-residues     = ['E','D','K','R','Q','N','P','H','T','S',
-                'G','A','V','M','C','I','L','Y','F','W']
 residuesDict = {'E':0,'D':1,'K':2,'R':3,'Q':4,'N':5,'P':6,
                 'H':7,'T':8,'S':9,'G':10,'A':11,'V':12,'M':13,
                 'C':14,'I':15,'L':16,'Y':17,'F':18,'W':19}
