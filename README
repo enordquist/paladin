@@ -1,4 +1,4 @@
-This is the readme file for the Physics-based Model of DnaK-Substrate Binding (PALADIN)
+This is the readme file for the Physics-based Model of DnaK-Substrate Binding (PALADIN). Publication: https://doi.org/10.1371/journal.pcbi.1009567
 
 The model is in paladin.py and requires the file ./params.npy to run properly.
 It is written with python3.
