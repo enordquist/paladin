@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #
 '''
-python paladin.py -i input [-o output] [-h]
+python paladin.py -i input.fasta [-o output.csv] [-q(iet)] [-h(elp)]
 
 for scoring peptides not comparing 13mer peptide array labels
 Matrix is Wsite * Sites(5) x [ Residues(20) x Wterm*Terms(7) ]
