@@ -1,5 +1,12 @@
 This is the readme file for the Physics-based Model of DnaK-Substrate Binding (PALADIN). Publication: https://doi.org/10.1371/journal.pcbi.1009567
 
+Dependencies: numpy, pandas, and argparse
+Install these with:
+  pip3 install pandas
+or
+  conda install pandas
+
+
 The model is in paladin.py and requires the file ./params.npy to run properly.
 It is written with python3.
 
@@ -15,12 +22,6 @@ To quiet this output, you can supply -q/--quiet.
 
 You should be able to make paladin.py executable and in your path, but
 make sure it knows where the params.npy file is (or keep them together).
-
-[ dependencies ]
-
-paladin uses three python packages: numpy, pandas, and argparse.
-pandas may not already be installed on your machine. You can find a way to install it here:
-https://pandas.pydata.org/pandas-docs/stable/getting_started/install.html
 
 
 [ Input and output format and examples ]
