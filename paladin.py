@@ -15,6 +15,7 @@ Matrix is Wsite * Sites(5) x [ Residues(20) x Wterm*Terms(7) ]
 import numpy as np
 import pandas as pd
 import argparse
+import sys
 pd.set_option("display.precision", 3)
 
 site_index   = [0,1,2,3,4]
@@ -32,7 +33,7 @@ reverse_penalty = 0.0
 
 ####
 #load params from numpy file
-params=np.load('params.npy',allow_pickle=True)
+params=np.load(sys.path[0]+'/params.npy',allow_pickle=True)
 #np.set_printoptions(precision=1,linewidth=80)
 
 # model form:
